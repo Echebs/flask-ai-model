@@ -1,23 +1,23 @@
-# Redeploy test
+from flask import Flask
+app = Flask(__name__)
+
 from flask import Flask, request, jsonify
-import numpy as np
 import tensorflow as tf
+import numpy as np
 
 app = Flask(__name__)
 
-# Load your model
-model = tf.keras.models.load_model('FINALYEAR_model.h5', compile=False)
-
-
-@app.route('/')
-def home():
-    return "Your AI Model is Live"
+# Load your AI model
+model = tf.keras.models.load_model("FINALYEAR_model.h5")
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    data = request.get_json()  # expects: {"input": [list of numbers]}
-    input_array = np.array(data['input']).reshape(1, -1)
-    prediction = model.predict(input_array)
-    return jsonify({'prediction': prediction.tolist()})
-if __name__ == "__main__":
-    app.run(debug=True)
+    data = request.json
+    input_data = np.array(data['input']).reshape(1, 6, 4)  # Adjust shape as needed
+    prediction = model.predict(input_data)
+    return jsonify({
+        "predicted_power": float(prediction[0][0]),
+        "anomaly_score": float(prediction[0][1])
+    })
+    if __name__ == "__main__":
+    app.run()
