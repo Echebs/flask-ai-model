@@ -6,7 +6,7 @@ import random
 app = Flask(__name__)
 
 # Load your AI model
-model = tf.keras.models.load_model("FINALYEAR_model.h5")
+model = tf.keras.models.load_model("FINALYEAR_model.h5", compile=False)
 
 @app.route('/predict', methods=['POST'])
 def predict():
