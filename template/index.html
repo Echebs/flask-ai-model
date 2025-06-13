@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Smart Meter Dashboard</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Live Smart Meter Dashboard</h1>
+    <div class="metrics">
+        <p>Voltage: <span id="voltage">--</span> V</p>
+        <p>Current: <span id="current">--</span> A</p>
+        <p>Power: <span id="power">--</span> W</p>
+        <p>Anomaly: <span id="anomaly">--</span></p>
+    </div>
+
+    <canvas id="voltageChart" width="400" height="200"></canvas>
+    <canvas id="currentChart" width="400" height="200"></canvas>
+
+    <script src="/static/js/dashboard.js"></script>
+</body>
+</html>

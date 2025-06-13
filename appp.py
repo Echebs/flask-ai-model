@@ -1,9 +1,7 @@
-from flask import Flask
-app = Flask(__name__)
-
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 import tensorflow as tf
 import numpy as np
+import random
 
 app = Flask(__name__)
 
@@ -19,5 +17,25 @@ def predict():
         "predicted_power": float(prediction[0][0]),
         "anomaly_score": float(prediction[0][1])
     })
-    if __name__ == "__main__":
-    app.run()
+
+@app.route('/')
+def home():
+    return render_template('index.html')
+
+@app.route('/data')
+def get_data():
+    # You can replace these with real sensor readings
+    voltage = round(random.uniform(210, 230), 2)
+    current = round(random.uniform(4.0, 6.0), 2)
+    power = round(voltage * current, 2)
+    anomaly = power > 1300  # Example threshold
+
+    return jsonify({
+        "voltage": voltage,
+        "current": current,
+        "power": power,
+        "anomaly": anomaly
+    })
+
+if __name__ == "__main__":
+    app.run(debug=True, host='0.0.0.0')
